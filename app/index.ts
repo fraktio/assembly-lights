@@ -12,12 +12,12 @@ let tick = 0;
 
 setInterval(() => {
   for (let i = 0; i < DmxService.lightCount; i++) {
-    const color = hsv2rgb((tick + i) * 20, 1, 1);
+    const color = hsv2rgb(tick + i * 45, 1, 1);
     console.log(color);
 
     DmxService.setLight(i, color[0], color[1], color[2]);
     tick += 1;
   }
-}, 500);
+}, 100);
 
 console.error("Hello world!");
