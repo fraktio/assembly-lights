@@ -1,0 +1,38 @@
+{
+    "name": "assembly-lights",
+    "version": "0.1.0",
+    "author": "Audiovisuaali",
+    "license": "UNLICENSED",
+    "private": true,
+    "engines": {
+        "node": ">=14.x"
+    },
+    "scripts": {
+        "dev": "tsc-watch --onSuccess \"node ./dist/index.js\""
+    },
+    "dependencies": {
+        "luxon": "^1.27.0",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "@types/luxon": "^1.27.0",
+        "@types/node": "^16.0.0",
+        "@types/uuid": "^8.3.1",
+        "@typescript-eslint/eslint-plugin": "^4.28.1",
+        "@typescript-eslint/parser": "^4.28.1",
+        "eslint": "^7.30.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-config-standard": "^16.0.3",
+        "eslint-plugin-import": "^2.23.4",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "eslint-plugin-promise": "^5.1.0",
+        "eslint-plugin-standard": "^5.0.0",
+        "eslint-plugin-switch-case": "^1.1.2",
+        "prettier": "^2.3.2",
+        "ts-loader": "^9.2.3",
+        "ts-node": "^10.0.0",
+        "tsc-watch": "^5.0.3",
+        "typescript": "^4.3.5"
+    }
+}
