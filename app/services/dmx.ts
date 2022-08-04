@@ -2,6 +2,12 @@ import fetch, { FormData } from "node-fetch";
 
 import { toFailure, toSuccess, Try } from "../utils";
 
+// 1-8
+const DMX_COUNT = 8;
+// 0-255
+const LIGHT_MULTIPLIER = 255;
+const IS_DEBUG = false;
+
 export enum LightResponse {
   OK = "OK",
   INVALID_INDEX = "INVALID_INDEX",
@@ -15,11 +21,6 @@ const clamp = (value: number, min: number, max: number): number =>
 
 const multiplyInRange = (value: number, max: number): number =>
   value * (max / 255);
-
-// 1-8
-const DMX_COUNT = 8;
-// 0-255
-const LIGHT_MULTIPLIER = 255;
 
 const defaultColor: Color = {
   r: 255,
@@ -36,18 +37,24 @@ export type Color = {
 class DMX {
   private lights: Color[];
   private lightMultiplier: number;
+  private isDeBug: boolean;
   // private interval: NodeJS.Timeout | null;
 
-  constructor(lightCount = DMX_COUNT, lightMultiplier = LIGHT_MULTIPLIER) {
+  constructor(
+    lightCount = DMX_COUNT,
+    lightMultiplier = LIGHT_MULTIPLIER,
+    isDebug = IS_DEBUG
+  ) {
     this.lights = Array.from(Array(lightCount)).map(() => defaultColor);
     this.lightMultiplier = lightMultiplier;
+    this.isDeBug = isDebug;
   }
 
   public setLight(
     index: number,
     r: number,
     g: number,
-    b: number,
+    b: number
   ): LightResponse {
     if (index < 0 || index >= this.lights.length) {
       return LightResponse.INVALID_INDEX;
@@ -92,11 +99,19 @@ class DMX {
 
     data.append("d", values.join(","));
 
+    if (this.isDeBug) {
+      console.log(`Sending values: ${values}`);
+    }
+
     try {
-      await fetch("http://127.0.0.1:9090/set_dmx", {
+      const result = await fetch("http://127.0.0.1:9090/set_dmx", {
         method: "POST",
         body: data,
       });
+
+      if (this.isDeBug) {
+        console.log(`Status code: ${result.status} (${result.statusText})`);
+      }
 
       return toSuccess(true);
     } catch (e) {

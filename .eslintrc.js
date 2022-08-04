@@ -29,7 +29,6 @@ module.exports = {
     "prefer-object-spread": 0,
     "one-var": ["error", "never"],
     "prefer-destructuring": ["error", { object: true, array: true }],
-    "no-console": ["error", { allow: ["warn", "error"] }],
     "generator-star-spacing": ["error", { before: false, after: true }],
     "func-style": ["error", "declaration", { allowArrowFunctions: true }],
     "no-nested-ternary": "error",
