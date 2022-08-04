@@ -22,7 +22,8 @@ setInterval(() => {
   for (let i = 0; i < DmxService.lightCount; i++) {
     const color = hsv2rgb(tick + i * offset, 1, 1);
 
-    const bitMask = 1 << i;
+    const reversedIndex = Math.abs(i - 8);
+    const bitMask = 1 << reversedIndex;
     const enabled = (number & bitMask) === bitMask;
     if (enabled) {
       DmxService.setLight(i, color[0], color[1], color[2]);
