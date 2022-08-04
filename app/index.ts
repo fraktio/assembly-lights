@@ -1,36 +1,22 @@
 import { DmxService } from "./services/dmx";
 
-const Red = [255, 0, 0];
-const Green = [0, 255, 0];
-const Blue = [0, 0, 255];
+// input: h in [0,360] and s,v in [0,1] - output: r,g,b in [0,255]
+function hsv2rgb(h: number, s: number, v: number): [number, number, number] {
+  const f = (n: number, k = (n + h / 60) % 6): number =>
+    Math.floor((v - v * s * Math.max(Math.min(k, 4 - k, 1), 0)) * 255);
 
-const values = [
-  Red,
-  Green,
-  Blue,
-  Red,
-  Green,
-  Blue,
-  Red,
-  Green,
-  Blue,
-  Red,
-  Green,
-  Blue,
-];
+  return [f(5), f(3), f(1)];
+}
 
-let offset = 0;
+let tick = 0;
 
 setInterval(() => {
   for (let i = 0; i < DmxService.lightCount; i++) {
-    const index = (i + offset) % 3;
+    const color = hsv2rgb((tick + i) * 20, 1, 1);
+    console.log(color);
 
-    const colors = [...values].slice(index, 8);
-
-    colors.map((color, i): void => {
-      DmxService.setLight(i, color[0], color[1], color[2]);
-    });
-    offset += 1;
+    DmxService.setLight(i, color[0], color[1], color[2]);
+    tick += 1;
   }
 }, 500);
 
