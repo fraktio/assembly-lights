@@ -6,7 +6,7 @@ import { toFailure, toSuccess, Try } from "../utils";
 // 1-8
 const DMX_COUNT = 8;
 // 0-255
-const LIGHT_MULTIPLIER = 120;
+const LIGHT_MULTIPLIER = 50;
 const IS_DEBUG = true;
 
 export enum LightResponse {
