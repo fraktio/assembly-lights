@@ -1,4 +1,5 @@
-import fetch, { FormData } from "node-fetch";
+import axios from "axios";
+import FormData from "form-data";
 
 import { toFailure, toSuccess, Try } from "../utils";
 
@@ -6,7 +7,7 @@ import { toFailure, toSuccess, Try } from "../utils";
 const DMX_COUNT = 8;
 // 0-255
 const LIGHT_MULTIPLIER = 255;
-const IS_DEBUG = false;
+const IS_DEBUG = true;
 
 export enum LightResponse {
   OK = "OK",
@@ -49,6 +50,10 @@ class DMX {
     this.lightMultiplier = lightMultiplier;
     this.isDeBug = isDebug;
     this.interval = null;
+  }
+
+  public get lightCount(): number {
+    return this.lights.length;
   }
 
   public setLight(
@@ -101,26 +106,27 @@ class DMX {
   }
 
   private async sendData(): Promise<Try<true, Error>> {
-    const data = new FormData();
-    data.append("u", 0);
-
     const values = this.lights.flatMap((light) => [
       multiplyInRange(light.r, this.lightMultiplier),
       multiplyInRange(light.g, this.lightMultiplier),
       multiplyInRange(light.b, this.lightMultiplier),
     ]);
 
-    data.append("d", values.join(","));
-
     if (this.isDeBug) {
       console.log(`Sending values: ${values}`);
     }
 
+    const formData = new FormData();
+
+    formData.append("u", 0);
+    formData.append("d", values.join(","));
+
     try {
-      const result = await fetch("http://127.0.0.1:9090/set_dmx", {
-        method: "POST",
-        body: data,
-      });
+      const result = await axios.post(
+        "http://127.0.0.1:9090/set_dmx",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       if (this.isDeBug) {
         console.log(`Status code: ${result.status} (${result.statusText})`);
@@ -128,9 +134,10 @@ class DMX {
 
       return toSuccess(true);
     } catch (e) {
-      console.error(e);
+      const error = e as Error;
+      console.error(error.message);
 
-      return toFailure(e as Error);
+      return toFailure(error);
     }
   }
 }
