@@ -11,7 +11,7 @@ function hsv2rgb(h: number, s: number, v: number): [number, number, number] {
 let tick = 0;
 
 setInterval(() => {
-  const offset = 30 + (Math.sin(tick / 500) + 1) * 50;
+  const offset = 45 + (Math.sin(tick / 500) + 1) * 50;
 
   for (let i = 0; i < DmxService.lightCount; i++) {
     const color = hsv2rgb(tick + i * offset, 1, 1);
