@@ -1,25 +1,37 @@
 import { DmxService } from "./services/dmx";
 
-let count = 0;
+const Red = [255, 0, 0];
+const Green = [0, 255, 0];
+const Blue = [0, 0, 255];
+
+const values = [
+  Red,
+  Green,
+  Blue,
+  Red,
+  Green,
+  Blue,
+  Red,
+  Green,
+  Blue,
+  Red,
+  Green,
+  Blue,
+];
+
+let offset = 0;
 
 setInterval(() => {
   for (let i = 0; i < DmxService.lightCount; i++) {
-    const index = i + count;
-    switch (index % 3) {
-      case 0:
-        DmxService.setLight(1, 255, 0, 0);
-        break;
+    const index = (i + offset) % 3;
 
-      case 1:
-        DmxService.setLight(1, 0, 255, 0);
-        break;
+    const colors = [...values].slice(index, 8);
 
-      case 2:
-        DmxService.setLight(1, 0, 0, 255);
-        break;
-    }
+    colors.map((color, i): void => {
+      DmxService.setLight(i, color[0], color[1], color[2]);
+    });
+    offset += 1;
   }
-  count += 1;
 }, 500);
 
 console.error("Hello world!");
