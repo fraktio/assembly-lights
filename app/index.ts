@@ -2,7 +2,7 @@ import { DmxService } from "./services/dmx";
 
 let number = 0;
 
-setTimeout(() => {
+setInterval(() => {
   number++;
 }, 500);
 
