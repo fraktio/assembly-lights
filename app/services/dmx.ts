@@ -6,7 +6,7 @@ import { toFailure, toSuccess, Try } from "../utils";
 // 1-8
 const DMX_COUNT = 8;
 // 0-255
-const LIGHT_MULTIPLIER = 255;
+const LIGHT_MULTIPLIER = 120;
 const IS_DEBUG = true;
 
 export enum LightResponse {
@@ -44,7 +44,7 @@ class DMX {
   constructor(
     lightCount = DMX_COUNT,
     lightMultiplier = LIGHT_MULTIPLIER,
-    isDebug = IS_DEBUG
+    isDebug = IS_DEBUG,
   ) {
     this.lights = Array.from(Array(lightCount)).map(() => defaultColor);
     this.lightMultiplier = lightMultiplier;
@@ -60,7 +60,7 @@ class DMX {
     index: number,
     r: number,
     g: number,
-    b: number
+    b: number,
   ): LightResponse {
     if (index < 0 || index >= this.lights.length) {
       return LightResponse.INVALID_INDEX;
@@ -125,7 +125,7 @@ class DMX {
       const result = await axios.post(
         "http://127.0.0.1:9090/set_dmx",
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
 
       if (this.isDeBug) {
