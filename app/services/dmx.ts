@@ -1,4 +1,5 @@
 import axios from "axios";
+import chalk from "chalk";
 import FormData from "form-data";
 
 import { toFailure, toSuccess, Try } from "../utils";
@@ -16,6 +17,8 @@ export enum LightResponse {
   INVALID_G = "INVALID_G",
   INVALID_B = "INVALID_B",
 }
+
+const BLOCK = "█";
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
@@ -113,13 +116,23 @@ class DMX {
     ]);
 
     if (this.isDeBug) {
-      console.log(`Sending values: ${values}`);
+      process.stdout.write("\r");
+      this.lights.forEach((light): void => {
+        const coloredText = chalk.rgb(light.r, light.g, light.b);
+        process.stdout.write(coloredText(BLOCK));
+      });
+
+      process.stdout.write(` Sending values: ${values} `);
     }
 
     const formData = new FormData();
 
     formData.append("u", 0);
     formData.append("d", values.join(","));
+
+    if (this.isDeBug) {
+      return toSuccess(true);
+    }
 
     try {
       const result = await axios.post(
