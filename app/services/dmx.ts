@@ -38,7 +38,7 @@ class DMX {
   private lights: Color[];
   private lightMultiplier: number;
   private isDeBug: boolean;
-  // private interval: NodeJS.Timeout | null;
+  private interval: NodeJS.Timeout | null;
 
   constructor(
     lightCount = DMX_COUNT,
@@ -48,6 +48,7 @@ class DMX {
     this.lights = Array.from(Array(lightCount)).map(() => defaultColor);
     this.lightMultiplier = lightMultiplier;
     this.isDeBug = isDebug;
+    this.interval = null;
   }
 
   public setLight(
@@ -87,7 +88,19 @@ class DMX {
     return LightResponse.OK;
   }
 
-  public async sendDate(): Promise<Try<true, Error>> {
+  public startWorker(): void {
+    this.interval = setInterval(() => {
+      this.sendData();
+    }, 33);
+  }
+
+  public stopWorker(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+  private async sendData(): Promise<Try<true, Error>> {
     const data = new FormData();
     data.append("u", 0);
 
@@ -123,3 +136,5 @@ class DMX {
 }
 
 export const DmxService = new DMX();
+
+DmxService.startWorker();
