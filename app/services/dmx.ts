@@ -48,7 +48,7 @@ class DMX {
   constructor(
     lightCount = DMX_COUNT,
     lightMultiplier = LIGHT_MULTIPLIER,
-    isDebug = IS_PRODUCTION,
+    isDebug = IS_PRODUCTION
   ) {
     this.lights = Array.from(Array(lightCount)).map(() => defaultColor);
     this.lightMultiplier = lightMultiplier;
@@ -64,7 +64,7 @@ class DMX {
     index: number,
     r: number,
     g: number,
-    b: number,
+    b: number
   ): LightResponse {
     if (index < 0 || index >= this.lights.length) {
       return LightResponse.INVALID_INDEX;
@@ -116,15 +116,13 @@ class DMX {
       multiplyInRange(light.b, this.lightMultiplier),
     ]);
 
-    if (this.isDeBug) {
-      process.stdout.write("\r");
-      this.lights.forEach((light): void => {
-        const coloredText = chalk.rgb(light.r, light.g, light.b);
-        process.stdout.write(coloredText(BLOCK));
-      });
+    process.stdout.write("\r");
+    this.lights.forEach((light): void => {
+      const coloredText = chalk.rgb(light.r, light.g, light.b);
+      process.stdout.write(coloredText(BLOCK));
+    });
 
-      process.stdout.write(` Sending values: ${values} `);
-    }
+    process.stdout.write(` Sending values: ${values} `);
 
     const formData = new FormData();
 
@@ -139,7 +137,7 @@ class DMX {
       const result = await axios.post(
         "http://127.0.0.1:9090/set_dmx",
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } },
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
 
       if (this.isDeBug) {
