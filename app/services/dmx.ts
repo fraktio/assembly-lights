@@ -9,6 +9,8 @@ const DMX_COUNT = 8;
 // 0-255
 const LIGHT_MULTIPLIER = 50;
 const IS_DEBUG = true;
+// eslint-disable-next-line no-process-env
+const IS_PRODUCTION = process.env.USER === "ubuntu";
 
 export enum LightResponse {
   OK = "OK",
@@ -130,7 +132,7 @@ class DMX {
     formData.append("u", 0);
     formData.append("d", values.join(","));
 
-    if (this.isDeBug) {
+    if (!IS_PRODUCTION) {
       return toSuccess(true);
     }
 

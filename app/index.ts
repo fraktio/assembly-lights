@@ -18,5 +18,3 @@ setInterval(() => {
     tick += 1;
   }
 }, 20);
-
-console.error("Hello world!");
