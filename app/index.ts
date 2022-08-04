@@ -28,7 +28,7 @@ setInterval(() => {
       DmxService.setLight(i, color[0], color[1], color[2]);
       continue;
     }
-    DmxService.setLight(i, 0, 0, 0);
+    DmxService.setLight(i, 1, 1, 1);
   }
   tick += 1;
 }, 5);
