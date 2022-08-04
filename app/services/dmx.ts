@@ -1,0 +1,110 @@
+import fetch, { FormData } from "node-fetch";
+
+import { toFailure, toSuccess, Try } from "../utils";
+
+export enum LightResponse {
+  OK = "OK",
+  INVALID_INDEX = "INVALID_INDEX",
+  INVALID_R = "INVALID_R",
+  INVALID_G = "INVALID_G",
+  INVALID_B = "INVALID_B",
+}
+
+const clamp = (value: number, min: number, max: number): number =>
+  Math.min(Math.max(value, min), max);
+
+const multiplyInRange = (value: number, max: number): number =>
+  value * (max / 255);
+
+// 1-8
+const DMX_COUNT = 8;
+// 0-255
+const LIGHT_MULTIPLIER = 255;
+
+const defaultColor: Color = {
+  r: 255,
+  g: 255,
+  b: 255,
+};
+
+export type Color = {
+  r: number;
+  g: number;
+  b: number;
+};
+
+class DMX {
+  private lights: Color[];
+  private lightMultiplier: number;
+  // private interval: NodeJS.Timeout | null;
+
+  constructor(lightCount = DMX_COUNT, lightMultiplier = LIGHT_MULTIPLIER) {
+    this.lights = Array.from(Array(lightCount)).map(() => defaultColor);
+    this.lightMultiplier = lightMultiplier;
+  }
+
+  public setLight(
+    index: number,
+    r: number,
+    g: number,
+    b: number,
+  ): LightResponse {
+    if (index < 0 || index >= this.lights.length) {
+      return LightResponse.INVALID_INDEX;
+    }
+
+    const RGBr = Math.floor(clamp(r, 0, 255));
+
+    if (RGBr !== r) {
+      return LightResponse.INVALID_R;
+    }
+
+    const RGBg = Math.floor(clamp(g, 0, 255));
+
+    if (RGBg !== g) {
+      return LightResponse.INVALID_G;
+    }
+
+    const RGBb = Math.floor(clamp(b, 0, 255));
+
+    if (RGBb !== b) {
+      return LightResponse.INVALID_B;
+    }
+
+    this.lights[index] = {
+      r: RGBr,
+      g: RGBg,
+      b: RGBb,
+    };
+
+    return LightResponse.OK;
+  }
+
+  public async sendDate(): Promise<Try<true, Error>> {
+    const data = new FormData();
+    data.append("u", 0);
+
+    const values = this.lights.flatMap((light) => [
+      multiplyInRange(light.r, this.lightMultiplier),
+      multiplyInRange(light.g, this.lightMultiplier),
+      multiplyInRange(light.b, this.lightMultiplier),
+    ]);
+
+    data.append("d", values.join(","));
+
+    try {
+      await fetch("http://127.0.0.1:9090/set_dmx", {
+        method: "POST",
+        body: data,
+      });
+
+      return toSuccess(true);
+    } catch (e) {
+      console.error(e);
+
+      return toFailure(e as Error);
+    }
+  }
+}
+
+export const DmxService = new DMX();

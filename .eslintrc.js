@@ -73,7 +73,7 @@ module.exports = {
     "max-depth": ["error", 5],
     complexity: ["error", 20],
     "max-statements": ["error", 24],
-    "max-params": ["error", 3],
+    "max-params": ["error", 4],
     "lines-between-class-members": [
       "error",
       "always",
@@ -96,12 +96,6 @@ module.exports = {
       {
         selector: "ExportDefaultDeclaration",
         message: "Prefer named exports",
-      },
-    ],
-    "no-restricted-imports": [
-      "error",
-      {
-        patterns: [".*"],
       },
     ],
     "max-lines": ["error", 400],
