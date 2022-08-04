@@ -49,7 +49,7 @@ class DMX {
   constructor(
     lightCount = DMX_COUNT,
     lightMultiplier = LIGHT_MULTIPLIER,
-    isDebug = IS_DEBUG
+    isDebug = IS_PRODUCTION,
   ) {
     this.lights = Array.from(Array(lightCount)).map(() => defaultColor);
     this.lightMultiplier = lightMultiplier;
@@ -65,7 +65,7 @@ class DMX {
     index: number,
     r: number,
     g: number,
-    b: number
+    b: number,
   ): LightResponse {
     if (index < 0 || index >= this.lights.length) {
       return LightResponse.INVALID_INDEX;
@@ -140,7 +140,7 @@ class DMX {
       const result = await axios.post(
         "http://127.0.0.1:9090/set_dmx",
         formData,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
 
       if (this.isDeBug) {
