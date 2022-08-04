@@ -18,6 +18,6 @@ setInterval(() => {
     DmxService.setLight(i, color[0], color[1], color[2]);
     tick += 1;
   }
-}, 100);
+}, 20);
 
 console.error("Hello world!");
