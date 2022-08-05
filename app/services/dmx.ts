@@ -19,7 +19,7 @@ export enum LightResponse {
   INVALID_B = "INVALID_B",
 }
 
-const BLOCK = "█";
+const BLOCK = "██";
 
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
