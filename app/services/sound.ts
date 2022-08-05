@@ -57,6 +57,11 @@ export class SoundService {
    * Returns a percentage between 0 and 1
    */
   public get normalizedAverage(): number {
+    console.error(
+      this.average,
+      Math.min(1, Math.max(0, (this.average - 0.975) * 15))
+    );
+
     return Math.min(1, Math.max(0, (this.average - 0.975) * 15));
   }
 }
