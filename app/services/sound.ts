@@ -24,7 +24,7 @@ export class SoundService {
       format: "S16_LE",
       periodSize: 32,
       periodTime: undefined,
-      rate: 44100,
+      rate: 11000,
     });
 
     alsa.on("audio", this.handleAudio.bind(this));
