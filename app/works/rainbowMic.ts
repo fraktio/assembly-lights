@@ -11,14 +11,9 @@ export const rainbowMicWork: Work = (nextWork) => {
     const soundRange = soundService.normalizedAverage;
 
     for (let i = 0; i < DmxService.lightCount; i++) {
-      const color = colorService.hsv2rgb(time / 10 + i * 10, 1, 1);
+      const color = colorService.hsv2rgb(time / 10 + i * 10, soundRange, 1);
 
-      DmxService.setLight(
-        i,
-        color[0] * soundRange,
-        color[1] * soundRange,
-        color[2] * soundRange
-      );
+      DmxService.setLight(i, color[0], color[1], color[2]);
     }
   }, 5);
 
