@@ -52,8 +52,18 @@ export class SoundService {
     }
   }
 
-  public getFloatingAverage(): number {
+  /**
+   * Returns a percentage between 0 and 100
+   */
+  public get floatingAverage(): number {
     return this.average;
+  }
+
+  /**
+   * Returns a percentage between 0 and 1
+   */
+  public get normalizedAverage(): number {
+    return this.average / 100;
   }
 }
 
