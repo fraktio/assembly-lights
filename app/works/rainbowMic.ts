@@ -20,5 +20,5 @@ export const rainbowMicWork: Work = (nextWork) => {
   setTimeout(() => {
     nextWork();
     clearInterval(rainbowInterval);
-  }, 1000 * 60);
+  }, 1000 * 120);
 };
