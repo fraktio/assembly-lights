@@ -27,8 +27,8 @@ export class SoundService {
       rate: 44100,
     });
 
-    alsa.on("audio", this.handleAudio);
-    alsa.on("error", this.handleError);
+    alsa.on("audio", this.handleAudio.bind(this));
+    alsa.on("error", this.handleError.bind(this));
   }
 
   private handleError(error: Error): void {
@@ -57,8 +57,6 @@ export class SoundService {
    * Returns a percentage between 0 and 1
    */
   public get normalizedAverage(): number {
-    console.error("11", this.average);
-
     return Math.min(1, Math.max(0, (this.average - 0.975) * 15));
   }
 }
