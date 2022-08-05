@@ -8,7 +8,7 @@ export const rainbowMicWork: Work = (nextWork) => {
       console.error(255 * soundService.normalizedAverage);
       DmxService.setLight(
         i,
-        Math.min(255 * soundService.normalizedAverage, 255),
+        Math.max(15, Math.min(255 * soundService.normalizedAverage, 255)),
         0,
         0
       );
