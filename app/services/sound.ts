@@ -11,9 +11,10 @@ export class SoundService {
     this.weight = 0.01;
     this.average = 0.5;
 
-    if (IS_PRODUCTION) {
+    if (!IS_PRODUCTION) {
       return;
     }
+
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const AlsaCapture = require("alsa-capture");
     const alsa = new AlsaCapture({
