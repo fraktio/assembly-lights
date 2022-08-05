@@ -7,7 +7,7 @@ export const rainbowMicWork: Work = (nextWork) => {
     for (let i = 0; i < DmxService.lightCount; i++) {
       const red = 255 * soundService.normalizedAverage;
 
-      DmxService.setLight(i, Math.min(red, 255), 0, 0);
+      DmxService.setLight(i, Math.max(red, 20), 0, 0);
     }
   }, 5);
 
