@@ -24,7 +24,7 @@ export class SoundService {
       format: "S16_LE",
       periodSize: 32,
       periodTime: undefined,
-      rate: 11000,
+      rate: 4000,
     });
 
     alsa.on("audio", this.handleAudio.bind(this));
@@ -42,7 +42,7 @@ export class SoundService {
       this.samples.push(((bytes[i + 1] << 8) | (bytes[i] & 0xff)) / 32767);
     }
 
-    if (this.samples.length > 500) {
+    if (this.samples.length > 400) {
       const currentAverage =
         this.samples.reduce((prev, cur) => prev + cur, 0) / this.samples.length;
 
