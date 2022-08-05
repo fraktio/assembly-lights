@@ -6,13 +6,7 @@ export const rainbowMicWork: Work = (nextWork) => {
   const rainbowInterval = setInterval(() => {
     for (let i = 0; i < DmxService.lightCount; i++) {
       const red = 255 * soundService.normalizedAverage();
-      const result = DmxService.setLight(
-        i,
-        Math.floor(Math.max(red, 20)),
-        0,
-        0
-      );
-      console.error(red, result);
+      DmxService.setLight(i, Math.max(red, 20), 0, 0);
     }
   }, 5);
 
