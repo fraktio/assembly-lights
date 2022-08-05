@@ -10,7 +10,6 @@ export const rainbowMicWork: Work = (nextWork) => {
   const rainbowInterval = setInterval(() => {
     const time = Date.now() - startTime;
     const soundRange = soundService.normalizedAverage;
-    console.error("kek", soundRange);
     const multiplier = mathService.convertRange(soundRange, [0, 1], [0.4, 1]);
 
     for (let i = 0; i < DmxService.lightCount; i++) {
@@ -20,7 +19,7 @@ export const rainbowMicWork: Work = (nextWork) => {
         i,
         color[0] * multiplier,
         color[1] * multiplier,
-        color[2] * multiplier,
+        color[2] * multiplier
       );
     }
   }, 5);
