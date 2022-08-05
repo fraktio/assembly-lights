@@ -22,9 +22,9 @@ export class SoundService {
       debug: true,
       device: "hw:2,0",
       format: "S16_LE",
-      periodSize: 32,
+      periodSize: 16,
       periodTime: undefined,
-      rate: 44100,
+      rate: 8000,
     });
 
     alsa.on("audio", this.handleAudio.bind(this));
@@ -42,7 +42,7 @@ export class SoundService {
       this.samples.push(((bytes[i + 1] << 8) | (bytes[i] & 0xff)) / 32767);
     }
 
-    if (this.samples.length > 1000) {
+    if (this.samples.length > 160) {
       const currentAverage =
         this.samples.reduce((prev, cur) => prev + cur, 0) / this.samples.length;
 
