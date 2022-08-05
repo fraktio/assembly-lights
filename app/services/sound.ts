@@ -42,7 +42,7 @@ export class SoundService {
       this.samples.push(((bytes[i + 1] << 8) | (bytes[i] & 0xff)) / 32767);
     }
 
-    if (this.samples.length > 1000) {
+    if (this.samples.length > 500) {
       const currentAverage =
         this.samples.reduce((prev, cur) => prev + cur, 0) / this.samples.length;
 
