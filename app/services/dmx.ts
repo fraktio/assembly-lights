@@ -1,5 +1,5 @@
 import axios from "axios";
-import chalk from "chalk";
+// import chalk from "chalk";
 import FormData from "form-data";
 
 import { toFailure, toSuccess, Try } from "../utils";
@@ -115,7 +115,7 @@ class DMX {
       multiplyInRange(light.g, this.lightMultiplier),
       multiplyInRange(light.b, this.lightMultiplier),
     ]);
-
+    /*
     process.stdout.write("\r");
     this.lights.forEach((light): void => {
       const coloredText = chalk.rgb(light.r, light.g, light.b);
@@ -123,7 +123,7 @@ class DMX {
     });
 
     process.stdout.write(` Sending values: ${values} `);
-
+*/
     const formData = new FormData();
 
     formData.append("u", 0);
